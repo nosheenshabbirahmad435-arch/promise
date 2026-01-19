@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>promises</h1>
+    <form onsubmit="checkweather();return false;">
+      <input type="text" name="cityName" id="cityName" />
+
+      <button>Check Weather</button>
+    </form>
+
+    <div id="weather"></div>
+    <script>
+      function checkweather() {
+        const cityRef = document.querySelector("#cityName")
+        const cityValue = cityRef.value
+        const weatherRef = document.querySelector("#weather")
+        //api calling
+        const cityRes = fetch(`https://p2pclouds.up.railway.app/v1/learn/weather?city=${cityValue}`,
+        );//backticks used 
+
+        cityRes
+          .then((data) => {
+            return data.json()
+          })
+          .then((data) => {
+weatherRef.innerHTML = `${cityValue} its temperature feels like is ${data["current"]["feelslike_c"]}`
+            // console.log(data);
+          })
+
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
+      const weatherRes = new Promise((resolve, reject) => {
+        if (5 > 3) {
+          resolve({ weather: "10 degree" });
+        } else {
+          reject({ message: "something went wrong" });
+        }
+      });
+      //console.log(weatherRes);
+      weatherRes
+        .then((data) => {
+          console.log("i am then");
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log("i am catch ");
+          console.log(error);
+        });
+      const cityRes = fetch(
+        "https://p2pclouds.up.railway.app/v1/learn/weather?city=karachi",
+      );
+
+      cityRes
+        .then((data) => {
+          return data.json();
+        })
+        .then((data) => {
+          console.log(data);
+        })
+
+        .catch((error) => {
+          console.log(error);
+        });
+    </script>
+  </body>
+</html>
